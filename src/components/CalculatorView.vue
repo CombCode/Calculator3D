@@ -10,23 +10,30 @@
 
 <script>
 /* eslint-disable */    //disabled all warnings in a file
-import {
-    BoxGeometry,
-    Color,
-    Mesh,
-    MeshBasicMaterial,
-    PerspectiveCamera,
-    Scene,
-    WebGLRenderer,
-    } from 'three';
+import { World } from './world/world.js';
 
 
 export default {
     
     mounted() {
-    const container = document.querySelector('#scene-container');
 
-    //world scene
+        let initWorld = () => {
+            //reference the html spot
+            const container = document.querySelector('#scene-container');
+
+            // init world istance
+            const world = new World(container);
+
+            //render
+            //world.render()   only for single frame
+            world.start()
+
+        }
+
+        initWorld()
+    
+
+   /*  //world scene
     const scene = new Scene()
     scene.background = new Color(0x805050); //0x is a prefix for hexadecimal numbers
 
@@ -63,8 +70,9 @@ export default {
 
     // actual render fire
     renderer.render(scene, camera);
+    */
 
-    },
+    }, 
 
     
 }

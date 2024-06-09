@@ -13,15 +13,14 @@ export function createLights(){
 
     //animation
     let xMovePerSecond = 10
-    console.log(sun.position)
 
-    sun.tick = (delta) => {
+    /* sun.tick = (delta) => {
         if(sun.position.x > 20 || sun.position.x < -20)
             xMovePerSecond = xMovePerSecond * -1
            
         
          sun.position.x += xMovePerSecond*delta
-    }
+    } */
         
     return {sun, ambientLight}
 }

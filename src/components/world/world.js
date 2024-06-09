@@ -1,7 +1,8 @@
 /* eslint-disable */    //disabled all warnings in a file
 import { createCamera } from './scene_components/camera.js';
-import { createCube } from './scene_components/cube.js';
-import { createCube2 } from './scene_components/cube2.js';
+//import { createCube } from './scene_components/cube.js';
+//import { createCube2 } from './scene_components/cube2.js';
+import { createCalculator } from './scene_components/calculatorModel/calculatorModel.js'
 import { createLights } from './scene_components/lights.js';
 import { createScene } from './scene_components/scene.js';
 
@@ -24,13 +25,14 @@ class World {
 
     container.append(renderer.domElement) //add the canva in the html
 
-    const controls = createControls(camera, renderer.domElement); 
+    const controls = createControls(camera, renderer.domElement);
+
     //objects
-    let tour = createCube()
-    let cube = createCube2()
+    const calculatorModel =  createCalculator()
+    //lights
     const { ambientLight, sun } = createLights();
 
-    scene.add(tour, cube, ambientLight, sun)
+    scene.add(calculatorModel, ambientLight, sun)
 
 
     let resizer = new Resizer(container, camera, renderer);
@@ -38,8 +40,8 @@ class World {
       this.render()                   not necessary because of the loop existance
     } */
 
-    loop.animatedObjs.push(tour)
-    loop.animatedObjs.push(sun)
+    
+    /* loop.animatedObjs.push(sun) */
     
     loop.animatedObjs.push(controls)
     console.log("animated objs: ", loop.animatedObjs)

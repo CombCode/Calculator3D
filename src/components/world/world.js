@@ -11,55 +11,48 @@ import { Resizer } from './scene_systems/Resizer.js';
 import { createControls } from './scene_systems/controls.js';
 import { Loop } from './scene_systems/Loop.js';
 
-let camera
-let renderer
-let scene
 let loop
-
+let renderer
 class World {
   constructor(container) {
-    camera = createCamera();
-    scene = createScene();
-    renderer = createRenderer();
-    loop = new Loop(camera, scene, renderer)
+    
+    let scene = createScene();
 
-    container.append(renderer.domElement) //add the canva in the html
-
-    const controls = createControls(camera, renderer.domElement);
-
-    //objects
+    //scene concrete elements
+    let camera = createCamera();
+      //objects
     const calculatorModel =  createCalculator()
-    //lights
+      //lights
     const { ambientLight, sun } = createLights();
 
+    //scene system elements
+    renderer = createRenderer();
+    let controls = createControls(camera, renderer.domElement);
+    loop = new Loop(camera, scene, renderer)
+    let resizer = new Resizer(container, camera, renderer);
+
+    //adding all elements to the scene
     scene.add(calculatorModel, ambientLight, sun)
 
-
-    let resizer = new Resizer(container, camera, renderer);
-    /* resizer.onResize = () => {
-      this.render()                   not necessary because of the loop existance
-    } */
-
-    
-    /* loop.animatedObjs.push(sun) */
-    
+  
+    // ANIMATION
     loop.animatedObjs.push(controls)
     console.log("animated objs: ", loop.animatedObjs)
+    
+    //add the canva in the html
+    container.append(renderer.domElement) 
   }
-
-  
 
   //actual render the scene 
   render() {
     // draw a single frame
     renderer.render(scene, camera);
   }
-
-  //rendering loop
+  //start rendering loop
   start(){
     loop.start()
   }
-
+  //stop rendering loop
   stop(){
     loop.stop()
   }

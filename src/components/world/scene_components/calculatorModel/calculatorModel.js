@@ -78,10 +78,11 @@ import { Group } from "three";
         else if(i == 16)
             button.position.set(4,-4,0)
     
+        button.name = `button_${i}`
 
-        buttons.add(button)
+        buttons.add(button)   
     }
-
+    console.log("buttons:" , buttons)
     calculatorModel.add(buttons)
 
     //screen

@@ -10,16 +10,22 @@ import { createRenderer } from './scene_systems/renderer.js';
 import { Resizer } from './scene_systems/Resizer.js';
 import { createControls } from './scene_systems/controls.js';
 import { Loop } from './scene_systems/Loop.js';
+import { Vector2 } from 'three';
+import { Raycaster } from 'three';
 
 let loop
 let renderer
+let mousePos
+let raycaster
+let camera
+let scene
 class World {
   constructor(container) {
     
-    let scene = createScene();
+    scene = createScene();
 
     //scene concrete elements
-    let camera = createCamera();
+    camera = createCamera();
       //objects
     const calculatorModel =  createCalculator()
       //lights
@@ -38,6 +44,12 @@ class World {
     // ANIMATION
     loop.animatedObjs.push(controls)
     console.log("animated objs: ", loop.animatedObjs)
+
+    //raycaster
+    mousePos = new Vector2(); 
+    document.addEventListener( 'mousedown', onMouseClick );
+    raycaster = new Raycaster()
+    
     
     //add the canva in the html
     container.append(renderer.domElement) 
@@ -56,6 +68,39 @@ class World {
   stop(){
     loop.stop()
   }
+
 }
 
+
+function onMouseClick( event ) {
+  //update mousePos
+  mousePos.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+  mousePos.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+
+  //cast ray on pousePos
+  raycaster.setFromCamera(mousePos, camera) //why here ?
+
+  //get the ray intesecting first obj
+  let intersectedObjs = raycaster.intersectObjects(scene.children);
+  let firstIntersectedObj = intersectedObjs[0]
+
+  //animate the selected obj
+  if(firstIntersectedObj != undefined && firstIntersectedObj.object.parent.name == "buttons"){
+    console.log(firstIntersectedObj)
+    /*
+      //test a change on the selected obj
+      if(firstIntersectedObj != undefined)
+      firstIntersectedObj.object.scale.z =2
+    */
+
+    firstIntersectedObj.object.position.z -= 0.3
+    setTimeout(() => {firstIntersectedObj.object.position.z += 0.3}, 200);
+  }
+
+  //send correct calculator number to the calculator logic
+  //TODO
+  
+}
+  
+  
 export {World}

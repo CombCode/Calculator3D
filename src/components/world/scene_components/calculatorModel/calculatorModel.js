@@ -32,6 +32,7 @@ import { Group } from "three";
     const buttonTemplate = new Mesh(button_geometry, button_material);
 
     const buttons = new Group()
+    buttons.name = "buttons"
     buttons.position.set(-2, 0, 1.75)
 
     for (let i = 0; i < 17; i ++) {

@@ -39,47 +39,68 @@ import { Group } from "three";
         const button = buttonTemplate.clone();
         
         // + - * /
-        if(i == 0)
-            button.position.set(0, 0, 0)
-        else if(i == 1)
-            button.position.set(1, 0, 0)
-        else if(i == 2)
-            button.position.set(3, 0, 0)
-        else if(i == 3)
-            button.position.set(4, 0, 0)
+        if(i == 0) {
+            button.position.set(0, 0, 0);
+            button.name = " + "
+        } else if(i == 1) {
+            button.position.set(1, 0, 0);
+            button.name = " - "
+        } else if(i == 2) {
+            button.position.set(3, 0, 0);
+            button.name = " * "
+        } else if(i == 3) {
+            button.position.set(4, 0, 0);
+            button.name = " / "
+        }
         // 7 8 9
-        else if(i == 4)
-            button.position.set(0,-2,0)
-        else if(i == 5)
-            button.position.set(1,-2,0)
-        else if(i == 6)
-            button.position.set(2,-2,0)
+        else if(i == 4) {
+            button.position.set(0, -2, 0);
+            button.name = "7"
+        } else if(i == 5) {
+            button.position.set(1, -2, 0);
+            button.name = "8"
+        } else if(i == 6) {
+            button.position.set(2, -2, 0);
+            button.name = "9"
+        }
         // 4 5 6
-        else if(i == 7)
-            button.position.set(0,-3,0)
-        else if(i == 8)
-            button.position.set(1,-3,0)
-        else if(i == 9)
-            button.position.set(2,-3,0)
-        //1 2 3
-        else if(i == 10)
-            button.position.set(0,-4,0)
-        else if(i == 11)
-            button.position.set(1,-4,0)
-        else if(i == 12)
-            button.position.set(2,-4,0)
-        //0 .
-        else if(i == 13)
-            button.position.set(0,-5,0)
-        else if(i == 14)
-            button.position.set(2,-5,0)
-        //AC =
-        else if(i == 15)
-            button.position.set(4,-2,0)
-        else if(i == 16)
-            button.position.set(4,-4,0)
-    
-        button.name = `button_${i}`
+        else if(i == 7) {
+            button.position.set(0, -3, 0);
+            button.name = "4"
+        } else if(i == 8) {
+            button.position.set(1, -3, 0);
+            button.name = "5"
+        } else if(i == 9) {
+            button.position.set(2, -3, 0);
+            button.name = "6"
+        }
+        // 1 2 3
+        else if(i == 10) {
+            button.position.set(0, -4, 0);
+            button.name = "1"
+        } else if(i == 11) {
+            button.position.set(1, -4, 0);
+            button.name = "2"
+        } else if(i == 12) {
+            button.position.set(2, -4, 0);
+            button.name = "3"
+        }
+        // 0 .
+        else if(i == 13) {
+            button.position.set(0, -5, 0);
+            button.name = "0"
+        } else if(i == 14) {
+            button.position.set(2, -5, 0);
+            button.name = "."
+        }
+        // AC =
+        else if(i == 15) {
+            button.position.set(4, -2, 0);
+            button.name = "AC"
+        } else if(i == 16) {
+            button.position.set(4, -4, 0);
+            button.name = "="
+        }
 
         buttons.add(button)   
     }

@@ -10,7 +10,9 @@
 
 <script>
 /* eslint-disable */    //disabled all warnings in a file
+import { ref } from 'vue';
 import { World } from './world/world.js';
+import { processCalculation } from './calculatorLogic.js';
 
 
 export default {
@@ -33,8 +35,33 @@ export default {
         initWorld()
     },
 
-    
+    setup(){
+
+        let fullString = ref("")
+        let result = ref("")
+
+        let onCalculatorButtonPressed = (e) => {
+            if(e.detail.buttonChar == "="){
+                result.value = processCalculation(fullString)
+                fullString.value = ""
+            }
+            else if(e.detail.buttonChar == "AC"){
+                fullString.value = ""
+            }
+            else{
+                fullString.value = fullString.value + e.detail.buttonChar
+            }
+        
+            
+            console.log("fullstring = ", fullString.value)
+        }
+
+        document.addEventListener('calculatorButtonPressed', onCalculatorButtonPressed);
+
+    return{fullString, result, onCalculatorButtonPressed}
+    },
 
     
+   
 }
 </script>

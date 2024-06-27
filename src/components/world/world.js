@@ -86,7 +86,7 @@ function onMouseClick( event ) {
 
   //animate the selected obj
   if(firstIntersectedObj != undefined && firstIntersectedObj.object.parent.name == "buttons"){
-    console.log(firstIntersectedObj)
+    console.log(firstIntersectedObj.object.name)
     /*
       //test a change on the selected obj
       if(firstIntersectedObj != undefined)
@@ -95,11 +95,13 @@ function onMouseClick( event ) {
 
     firstIntersectedObj.object.position.z -= 0.3
     setTimeout(() => {firstIntersectedObj.object.position.z += 0.3}, 200);
+    
+    //send correct calculator number to the calculatorView.vue
+    let passValue = new CustomEvent("calculatorButtonPressed", {detail: {buttonChar: firstIntersectedObj.object.name}});
+    document.dispatchEvent(passValue) //old way, need change
+  
   }
 
-  //send correct calculator number to the calculator logic
-  //TODO
-  
 }
   
   

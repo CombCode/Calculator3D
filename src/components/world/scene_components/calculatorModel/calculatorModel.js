@@ -1,6 +1,31 @@
 /* eslint-disable */    //disabled all warnings in a file
+import { RepeatWrapping, TextureLoader } from "three";
 import { BoxGeometry, MeshStandardMaterial, Mesh} from "three";
 import { Group } from "three";
+
+//import plasticTexture_color from "@/assets/textures/plasticpattern1-albedo.png"
+import plasticTexture_normals from "@/assets/textures/plasticpattern1-normal2-ogl.png"
+import plasticTexture_roughness from "@/assets/textures/plasticpattern1-roughness2.png"
+
+import texture_0 from "@/assets/textures/buttons/0.png"
+import texture_1 from "@/assets/textures/buttons/1.png"
+import texture_2 from "@/assets/textures/buttons/2.png"
+import texture_3 from "@/assets/textures/buttons/3.png"
+import texture_4 from "@/assets/textures/buttons/4.png"
+import texture_5 from "@/assets/textures/buttons/5.png"
+import texture_6 from "@/assets/textures/buttons/6.png"
+import texture_7 from "@/assets/textures/buttons/7.png"
+import texture_8 from "@/assets/textures/buttons/8.png"
+import texture_9 from "@/assets/textures/buttons/9.png"
+import texture_ac from "@/assets/textures/buttons/ac.png"
+import texture_div from "@/assets/textures/buttons/div.png"
+import texture_dot from "@/assets/textures/buttons/dot.png"
+import texture_equal from "@/assets/textures/buttons/equal.png"
+import texture_min from "@/assets/textures/buttons/min.png"
+import texture_mult from "@/assets/textures/buttons/mult.png"
+import texture_plus from "@/assets/textures/buttons/plus.png"
+
+
 
  export function createCalculator()  {
 
@@ -10,7 +35,7 @@ import { Group } from "three";
 
     //body
     const body_geometry = new BoxGeometry( 7, 12, 3)
-    const body_material = new MeshStandardMaterial({color: "hsl(0, 100%, 50%)"})
+    const body_material = createCalculatorMaterial()
     const body = new Mesh(body_geometry, body_material)
 
     calculatorModel.add(body)
@@ -28,15 +53,28 @@ import { Group } from "three";
 
     //buttons
     const button_geometry = new BoxGeometry(0.8, 0.8, 0.5)
-    const button_material = new MeshStandardMaterial({color: "hsl(150, 100%, 90%)"})
-    const buttonTemplate = new Mesh(button_geometry, button_material);
+
+   
+    const buttonsTextures = [
+        texture_plus, texture_min, texture_mult, texture_div,
+        texture_7, texture_8, texture_9,
+        texture_4, texture_5, texture_6,
+        texture_1, texture_2, texture_3,
+        texture_0, texture_dot, texture_ac, texture_equal
+    ]
+    const loader = new TextureLoader();
+    const buttonsMaterial = buttonsTextures.map((texture) => {
+        let tempMaterial = new MeshStandardMaterial({map: loader.load(texture)})
+        return tempMaterial})
+    
+
 
     const buttons = new Group()
     buttons.name = "buttons"
     buttons.position.set(-2, 0, 1.75)
 
     for (let i = 0; i < 17; i ++) {
-        const button = buttonTemplate.clone();
+        const button = new Mesh(button_geometry, buttonsMaterial[i]);
         
         // + - * /
         if(i == 0) {
@@ -120,3 +158,25 @@ import { Group } from "three";
 
     return calculatorModel
 }
+
+function createCalculatorMaterial(){
+    //texture loader creation
+    const textureLoader = new TextureLoader()
+
+    //load textures
+    //const colorTexture = textureLoader.load(plasticTexture_color)
+    const roughnessTexture = textureLoader.load(plasticTexture_roughness)
+    const normalTexture = textureLoader.load(plasticTexture_normals)
+    
+    
+
+    //actual creation
+    let material = new MeshStandardMaterial({
+            color: "rgb(0, 0, 0)", 
+            roughnessMap: roughnessTexture, 
+            normalMap: normalTexture
+            })
+
+    return material
+}
+

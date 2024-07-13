@@ -19,6 +19,8 @@ export default {
     
     mounted() {
 
+        let world
+
         let initWorld = () => {
             //reference the html spot
             const container = document.querySelector('#scene-container');
@@ -33,6 +35,8 @@ export default {
         }
 
         initWorld()
+
+        this.world = world
     },
 
     setup(){
@@ -40,20 +44,46 @@ export default {
         let fullString = ref("")
         let result = ref("")
 
+        
+
         let onCalculatorButtonPressed = (e) => {
             if(e.detail.buttonChar == "="){
                 result.value = processCalculation(fullString)
+                fullString.value = result.value
+                const myEvent = new CustomEvent("changeScreen", {
+                    detail: {string: fullString.value},
+                    bubbles: true,
+                    cancelable: true,
+                    composed: false,
+                });
+                document.dispatchEvent(myEvent);
                 fullString.value = ""
             }
             else if(e.detail.buttonChar == "AC"){
                 fullString.value = ""
+                const myEvent = new CustomEvent("changeScreen", {
+                    detail: {string: " "},
+                    bubbles: true,
+                    cancelable: true,
+                    composed: false,
+                });
+                document.dispatchEvent(myEvent);
             }
             else{
                 fullString.value = fullString.value + e.detail.buttonChar
+                const myEvent = new CustomEvent("changeScreen", {
+                    detail: {string: fullString.value},
+                    bubbles: true,
+                    cancelable: true,
+                    composed: false,
+                });
+                document.dispatchEvent(myEvent);
             }
         
             
+
             console.log("fullstring = ", fullString.value)
+            
         }
 
         document.addEventListener('calculatorButtonPressed', onCalculatorButtonPressed);

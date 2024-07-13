@@ -42,8 +42,9 @@ class World {
 
   
     // ANIMATION
-    loop.animatedObjs.push(controls)
+    loop.animatedObjs.push(controls, calculatorModel)
     console.log("animated objs: ", loop.animatedObjs)
+
 
     //raycaster
     mousePos = new Vector2(); 

@@ -24,6 +24,7 @@ import texture_equal from "@/assets/textures/buttons/equal.png"
 import texture_min from "@/assets/textures/buttons/min.png"
 import texture_mult from "@/assets/textures/buttons/mult.png"
 import texture_plus from "@/assets/textures/buttons/plus.png"
+import { CanvasTexture } from "three";
 
 
 
@@ -147,17 +148,41 @@ import texture_plus from "@/assets/textures/buttons/plus.png"
 
     //screen
     const screen_geometry = new BoxGeometry(5, 2, 0.2)
-    const screen_material = new MeshStandardMaterial({color: "hsl(100, 100%, 50%)"})
+
+    
+    const screenTexture = drawScreenTexture(":)")
+
+    //const screen_material = new MeshStandardMaterial({color: "hsl(100, 100%, 50%)"}) //TODO replace with screen texture
+    const screen_material = new MeshStandardMaterial({map: screenTexture})
     const screen = new Mesh(screen_geometry, screen_material)
+
+    
     
     screen.position.set(0, 3, 1.6)
 
     calculatorModel.add(screen)
 
     //-------
+    calculatorModel.tick = (delta) => {
+        let shouldHandleChange = true;
+
+        const handleChangeScreen = (event) => {
+            if (shouldHandleChange && event.detail.string !== "") {
+                console.log(event.detail.string);
+                const newTexture = drawScreenTexture(event.detail.string);
+                screen.material.map = newTexture;
+                screen.material.map.needsUpdate = true;
+                
+                // Disabilitare la gestione degli eventi
+                shouldHandleChange = false;
+            }
+        };
+        document.addEventListener("changeScreen", handleChangeScreen);
+    } 
 
     return calculatorModel
 }
+
 
 function createCalculatorMaterial(){
     //texture loader creation
@@ -178,5 +203,32 @@ function createCalculatorMaterial(){
             })
 
     return material
+}
+
+function drawScreenTexture(custom_text){
+
+    //canva settings
+    const canvas = document.createElement('canvas');
+    canvas.width = 500;
+    canvas.height = 200;
+
+    const context = canvas.getContext('2d');
+
+    //backgrownd
+    context.fillStyle = 'green';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+
+    //text
+    context.fillStyle = 'white';
+    context.font = '100px Arial';   //TODO dynamic change the font based on text length
+    context.textAlign = 'left';
+    context.textBaseline = 'middle';
+
+    context.fillText(custom_text, canvas.width / 2, canvas.height / 2);
+
+    //texture creation
+    const texture = new CanvasTexture(canvas)
+    
+    return texture
 }
 

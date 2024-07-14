@@ -36,7 +36,7 @@ import { CanvasTexture } from "three";
 
     //body
     const body_geometry = new BoxGeometry( 7, 12, 3)
-    const body_material = createCalculatorMaterial()
+    const body_material = createCalculatorMaterial("black")
     const body = new Mesh(body_geometry, body_material)
 
     calculatorModel.add(body)
@@ -44,7 +44,7 @@ import { CanvasTexture } from "three";
 
     //battery
     const battery_geometry = new BoxGeometry( 7, 5, 1)
-    const battery_material = new MeshStandardMaterial({color: "hsl(100, 100%, 50%)"})
+    const battery_material = new createCalculatorMaterial("black")
     const battery = new Mesh(battery_geometry, battery_material)
     
     battery.position.set(0,-3.5,-2)
@@ -72,7 +72,7 @@ import { CanvasTexture } from "three";
 
     const buttons = new Group()
     buttons.name = "buttons"
-    buttons.position.set(-2, 0, 1.75)
+    buttons.position.set(-2, 0, 1.6)
 
     for (let i = 0; i < 17; i ++) {
         const button = new Mesh(button_geometry, buttonsMaterial[i]);
@@ -184,7 +184,7 @@ import { CanvasTexture } from "three";
 }
 
 
-function createCalculatorMaterial(){
+function createCalculatorMaterial(color){
     //texture loader creation
     const textureLoader = new TextureLoader()
 
@@ -197,7 +197,7 @@ function createCalculatorMaterial(){
 
     //actual creation
     let material = new MeshStandardMaterial({
-            color: "rgb(0, 0, 0)", 
+            color: color, 
             roughnessMap: roughnessTexture, 
             normalMap: normalTexture
             })

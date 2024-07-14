@@ -29,7 +29,7 @@ class World {
       //objects
     const calculatorModel =  createCalculator()
       //lights
-    const { ambientLight, sun } = createLights();
+    const { ambientLight, sun, backLight } = createLights();
 
     //scene system elements
     renderer = createRenderer();
@@ -38,7 +38,7 @@ class World {
     let resizer = new Resizer(container, camera, renderer);
 
     //adding all elements to the scene
-    scene.add(calculatorModel, ambientLight, sun)
+    scene.add(calculatorModel, ambientLight, sun, backLight)
 
   
     // ANIMATION

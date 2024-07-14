@@ -1,4 +1,4 @@
-# calculator
+# 3D calculator
 A working 3D calculator
 First 3D web project using Three.js (with OrbitControls add-on)
 

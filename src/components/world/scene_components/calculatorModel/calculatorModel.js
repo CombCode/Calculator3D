@@ -67,6 +67,8 @@ import { CanvasTexture } from "three";
     const buttonsMaterial = buttonsTextures.map((texture) => {
         let tempMaterial = new MeshStandardMaterial({map: loader.load(texture)})
         return tempMaterial})
+
+    const buttonsMaterial_white = new MeshStandardMaterial({color: "white"})
     
 
 
@@ -75,7 +77,16 @@ import { CanvasTexture } from "three";
     buttons.position.set(-2, 0, 1.6)
 
     for (let i = 0; i < 17; i ++) {
-        const button = new Mesh(button_geometry, buttonsMaterial[i]);
+        const button = new Mesh(button_geometry, 
+            [
+                buttonsMaterial_white,
+                buttonsMaterial_white,
+                buttonsMaterial_white,
+                buttonsMaterial_white,
+                buttonsMaterial[i], // front face
+                buttonsMaterial_white
+            ]
+        );
         
         // + - * /
         if(i == 0) {

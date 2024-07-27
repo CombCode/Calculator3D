@@ -152,13 +152,12 @@ import { CanvasTexture } from "three";
     
     const screenTexture = drawScreenTexture(":)")
 
-    //const screen_material = new MeshStandardMaterial({color: "hsl(100, 100%, 50%)"}) //TODO replace with screen texture
     const screen_material = new MeshStandardMaterial({map: screenTexture})
     const screen = new Mesh(screen_geometry, screen_material)
 
     
     
-    screen.position.set(0, 3, 1.6)
+    screen.position.set(0, 3, 1.41)
 
     calculatorModel.add(screen)
 
@@ -169,7 +168,7 @@ import { CanvasTexture } from "three";
         const handleChangeScreen = (event) => {
             if (shouldHandleChange && event.detail.string !== "") {
                 console.log(event.detail.string);
-                const newTexture = drawScreenTexture(event.detail.string);
+                const newTexture = drawScreenTexture(event.detail.string.toString());
                 screen.material.map = newTexture;
                 screen.material.map.needsUpdate = true;
                 
@@ -207,6 +206,19 @@ function createCalculatorMaterial(color){
 
 function drawScreenTexture(custom_text){
 
+    //font size screen adapter
+    let fontSize
+    if(custom_text.length <= 7){
+        fontSize = 100
+    }
+    else{
+        let custom_text_inverse = 1/custom_text.length
+        fontSize = 100 * custom_text_inverse *8//71
+        fontSize = parseInt(fontSize)
+    }
+    console.log("fontsize: ",fontSize)
+    
+
     //canva settings
     const canvas = document.createElement('canvas');
     canvas.width = 500;
@@ -216,15 +228,16 @@ function drawScreenTexture(custom_text){
 
     //backgrownd
     context.fillStyle = 'green';
-    context.fillRect(0, 0, canvas.width, canvas.height);
+    let border = 10
+    context.fillRect(border, border, canvas.width-border*2, canvas.height-border*2);
 
     //text
     context.fillStyle = 'white';
-    context.font = '100px Arial';   //TODO dynamic change the font based on text length
-    context.textAlign = 'left';
+    context.font = fontSize + 'px Arial';   
+    context.textAlign = 'right';
     context.textBaseline = 'middle';
 
-    context.fillText(custom_text, canvas.width / 2, canvas.height / 2);
+    context.fillText(custom_text, canvas.width-border*2, canvas.height / 2);
 
     //texture creation
     const texture = new CanvasTexture(canvas)

@@ -3,6 +3,8 @@ import { RepeatWrapping, TextureLoader } from "three";
 import { BoxGeometry, MeshStandardMaterial, Mesh} from "three";
 import { Group } from "three";
 
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+
 //import plasticTexture_color from "@/assets/textures/plasticpattern1-albedo.png"
 import plasticTexture_normals from "@/assets/textures/plasticpattern1-normal2-ogl.png"
 import plasticTexture_roughness from "@/assets/textures/plasticpattern1-roughness2.png"
@@ -25,6 +27,8 @@ import texture_min from "@/assets/textures/buttons/min.png"
 import texture_mult from "@/assets/textures/buttons/mult.png"
 import texture_plus from "@/assets/textures/buttons/plus.png"
 import { CanvasTexture } from "three";
+import { degToRad } from "three/src/math/MathUtils";
+
 
 
 
@@ -35,21 +39,27 @@ import { CanvasTexture } from "three";
 
 
     //body
-    const body_geometry = new BoxGeometry( 7, 12, 3)
-    const body_material = createCalculatorMaterial("black")
-    const body = new Mesh(body_geometry, body_material)
+    const loader3 = new GLTFLoader();
 
-    calculatorModel.add(body)
+    loader3.load( 'https://raw.githubusercontent.com/CombCode/3D_Model1/main/calculatorBody.gltf', function ( gltf ) {
 
+        let model = gltf.scene
+        model.rotateY(degToRad(270))
+        model.scale.set(1.5,2,2)
+        model.position.z = 0.4
+        model.traverse((child) => {
+            if (child.isMesh) {
+                child.material = new MeshStandardMaterial({color: 0x571d57});
+            }
+        });
+        calculatorModel.add( gltf.scene );
 
-    //battery
-    const battery_geometry = new BoxGeometry( 7, 5, 1)
-    const battery_material = new createCalculatorMaterial("black")
-    const battery = new Mesh(battery_geometry, battery_material)
-    
-    battery.position.set(0,-3.5,-2)
+    }, undefined, function ( error ) {
 
-    calculatorModel.add(battery)
+        console.error( error );
+
+    } );
+
 
 
     //buttons
